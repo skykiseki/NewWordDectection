@@ -1,6 +1,12 @@
 # NewWordDectection
 新词发现啦（屑）
 
+# 安装
+
+```shell
+pip install new-words-detection
+```
+
 # 使用说明
 ```python
 # 加载模块
