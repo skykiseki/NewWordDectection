@@ -2,7 +2,6 @@ import numpy as np
 import re
 import pandas as pd
 from datetime import datetime
-from tqdm import tqdm
 
 def extract_cadicateword(doc, max_word_len):
     """
@@ -209,8 +208,10 @@ class SegDocument(object):
         list_words: 字对象的列表
         """
         # 剔除特殊符号
-        pattern = re.compile(u'[\\s\\d,.<>/?:;\'\"[\\]{}()\\|~!@#$%^&*\\-_=+a-zA-Z，。《》、？：；“”‘’｛｝【】（）…￥！—┄－]+')
-        doc = pattern.sub(r'', doc)
+        #pattern = re.compile(u'[\\s\\d,.<>/?:;\'\"[\\]{}()\\|~!@#$%^&*\\-_=+a-zA-Z，。《》、？：；“”‘’｛｝【】（）…￥！—┄－]+')
+        #doc = pattern.sub(r'', doc)
+        pattern = re.compile(u'[\u4e00-\u9fa5]')
+        doc = ''.join(pattern.findall(pattern))
 
         # 文档长度
         len_doc = len(doc)
@@ -220,7 +221,7 @@ class SegDocument(object):
 
         # 遍历索引组合, 生成候选词词典, 一个词生成一个词对象
         word_cad = {}
-        for suffix in tqdm(word_index, desc='Initializing words.'):
+        for suffix in word_index:
             # 抓取单词
             word = doc[suffix[0]: suffix[1]]
 
