@@ -211,7 +211,7 @@ class SegDocument(object):
         #pattern = re.compile(u'[\\s\\d,.<>/?:;\'\"[\\]{}()\\|~!@#$%^&*\\-_=+a-zA-Z，。《》、？：；“”‘’｛｝【】（）…￥！—┄－]+')
         #doc = pattern.sub(r'', doc)
         pattern = re.compile(u'[\u4e00-\u9fa5]')
-        doc = ''.join(pattern.findall(pattern))
+        doc = ''.join(pattern.findall(doc))
 
         # 文档长度
         len_doc = len(doc)
