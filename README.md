@@ -10,7 +10,7 @@ pip install new-words-detection
 # 使用说明
 ```python
 # 加载模块
-from new-words-detection.wordSegment import get_doc_words
+from new_words_detection.wordSegment import get_doc_words
     
 # 准备预料, 输入时一个字符长串, 可含特殊字符
 corpus = '哈哈哈哈哈哈哈哈哈哈哈或或或或或或或或或或或或或或或或或或或或或或或或或或或或或'
