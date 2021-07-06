@@ -26,6 +26,7 @@ df_words = get_doc_words(corpus)
 - max_word_len: N-gram滑动的窗口大小
 - min_tf: 最小的词频占比
 - min_entropy: 最小左右熵阈值
-- min_pmi: 最小互信息阈值 min_tf: 最小的词频占比
+- min_pmi: 最小互信息阈值
+- min_tf: 最小的词频占比
 
 
