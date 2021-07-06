@@ -52,7 +52,6 @@ setup(name='new-words-detection',
         'numpy'
       ],
       keywords='NLP,Chinese word detection,Chinese word segementation',
-      packages=['new-words-detection'],
-      package_dir={'NewWordDetection':'new-words-detection'},
-      package_data={'new-words-detection':['*.*']}
+      packages=['new_words_detection'],
+      package_dir={'NewWordDetection':'new_words_detection'}
 )
