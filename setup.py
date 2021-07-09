@@ -24,7 +24,7 @@ GitHub: https://github.com/skykiseki/NewWordDectection
 """
 
 setup(name='new-words-detection',
-      version='1.0.2',
+      version='1.0.3',
       description='Chinese Words Segmentation Utilities',
       long_description=LONGDOC,
       long_description_content_type="text/markdown",
