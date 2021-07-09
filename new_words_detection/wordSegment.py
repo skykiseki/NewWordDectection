@@ -289,6 +289,6 @@ def get_doc_words(corpus, max_word_len=15, min_tf=1e-08, min_entropy=1, min_pmi=
     ed_time = datetime.now()
 
     # 记录执行时间
-    print('Time executed:{0}'.format(ed_time - st_time))
+    # print('Time executed:{0}'.format(ed_time - st_time))
 
     return df_words
