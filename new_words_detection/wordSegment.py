@@ -177,13 +177,13 @@ class SegDocument(object):
     word_tf_pmi_ent: 满足阈值条件的词对象列表
     """
 
-    def __init__(self, doc, max_word_len=15, min_tf=1e-08, min_entropy=1, min_pmi=3.0):
+    def __init__(self, doc, max_word_len=15, min_tf=1e-08, min_entropy=1, min_pmi=3.0, is_lower=True):
         # 基本属性
         self.max_word_len = max_word_len
         self.min_tf = min_tf
         self.min_entropy = min_entropy
         self.min_pmi = min_pmi
-        self.word_info = self.gen_words(doc=doc)
+        self.word_info = self.gen_words(doc=doc, is_lower=is_lower)
         self.avg_frq = sum([word.freq for word in self.word_info]) / len(self.word_info)
         self.avg_ent = sum([word.lr_ent for word in self.word_info]) / len(self.word_info)
         self.avg_pmi = sum([word.pmi for word in self.word_info]) / len(self.word_info)
@@ -195,7 +195,7 @@ class SegDocument(object):
                 if word_obj.len_word > 1:
                     self.word_tf_pmi_ent.append(word_obj)
 
-    def gen_words(self, doc):
+    def gen_words(self, doc, is_lower=True):
         """
         基于语料的n-gram模型, 计算pmi
 
@@ -203,14 +203,18 @@ class SegDocument(object):
         ----------
         doc: 原始语料
 
+        is_lower: 是否转化小写
+
         Returns:
         -------
         list_words: 字对象的列表
         """
-        # 剔除特殊符号
-        #pattern = re.compile(u'[\\s\\d,.<>/?:;\'\"[\\]{}()\\|~!@#$%^&*\\-_=+a-zA-Z，。《》、？：；“”‘’｛｝【】（）…￥！—┄－]+')
-        #doc = pattern.sub(r'', doc)
-        pattern = re.compile(u'[\u4e00-\u9fa5]')
+        # 处理大小写
+        if is_lower:
+            doc = doc.lower()
+
+        # 自带去空格
+        pattern = re.compile(u'[\u4e00-\u9fa5a-zA-z]')
         doc = ''.join(pattern.findall(doc))
 
         # 文档长度
@@ -248,7 +252,7 @@ class SegDocument(object):
         list_words = sorted(list(word_cad.values()), key=lambda w: len(w.word), reverse=False)
         return list_words
 
-def get_doc_words(corpus, max_word_len=15, min_tf=1e-08, min_entropy=1, min_pmi=3.0):
+def get_doc_words(corpus, max_word_len=15, min_tf=1e-08, min_entropy=1, min_pmi=3.0, is_lower=True):
     """
     最终提供调用的函数
 
@@ -260,20 +264,23 @@ def get_doc_words(corpus, max_word_len=15, min_tf=1e-08, min_entropy=1, min_pmi=
     min_entropy: 最小左右熵阈值
     min_pmi: 最小互信息阈值
 
+    is_lower: 是否转小写
+
     Returns:
     -------
     df_words: Dataframe, 最后形成的词库df统计
 
     """
     # 记录开始时间
-    st_time = datetime.now()
+    # st_time = datetime.now()
 
     # 初始化词表
     doc_obj = SegDocument(corpus,
                           max_word_len=max_word_len,
                           min_tf=min_tf,
                           min_entropy=min_entropy,
-                          min_pmi=min_pmi)
+                          min_pmi=min_pmi,
+                          is_lower=is_lower)
 
     # 将对应的词表以及相关统计值形成dataframe
     df_words = pd.DataFrame(columns=['word', 'word_length', 'word_freq', 'word_pmi', 'word_entropy'])
@@ -286,7 +293,7 @@ def get_doc_words(corpus, max_word_len=15, min_tf=1e-08, min_entropy=1, min_pmi=
                                     'word_entropy': word_obj.lr_ent}, ignore_index=True)
 
     # 记录结束时间
-    ed_time = datetime.now()
+    # ed_time = datetime.now()
 
     # 记录执行时间
     # print('Time executed:{0}'.format(ed_time - st_time))
